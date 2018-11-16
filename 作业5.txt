@@ -1,0 +1,89 @@
+Microsoft Windows [版本 6.1.7601]
+版权所有 (c) 2009 Microsoft Corporation。保留所有权利。
+
+C:\Windows\system32>mysql -u root -p
+Enter password: ***********
+ERROR 2003 (HY000): Can't connect to MySQL server on 'localhost' (10061)
+
+C:\Windows\system32>mysql -u root -p
+Enter password: ***********
+ERROR 2003 (HY000): Can't connect to MySQL server on 'localhost' (10061)
+
+C:\Windows\system32>nei start mysql80
+'nei' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。
+
+C:\Windows\system32>net start mysql80
+MySQL80 服务正在启动 ....
+MySQL80 服务已经启动成功。
+
+
+C:\Windows\system32>mysql -u root -p
+Enter password: ***********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.12 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use lcx321;
+Database changed
+
+mysql> create table country(
+    -> country_id smallint UNSIGNED not null  auto_increment,
+    -> c_ountry varchar(40) not null,
+    -> last_update timestamp not null default current_timestamp on update curren
+t_timestamp,
+    -> primary key(country_id)
+    -> )engine=innodb default charset=utf8;
+Query OK, 0 rows affected, 1 warning (0.20 sec)
+
+mysql> create table city(
+    -> city_id smallint unsigned not null auto_increment,
+    -> city_name varchar(40) not null,
+    -> country_id smallint unsigned not null,
+    -> last_update timestamp default current_timestamp on update current_timesta
+mp,
+    -> primary key  (city_id),
+    -> key idx_fk_country_id (country_id),
+    -> constraint `fk_city_coutry` foreign key (country_id) references country(c
+ountry_id) on delete restrict on update cascade
+    -> )engine=innodb default charset=utf8;
+Query OK, 0 rows affected, 1 warning (0.27 sec)
+
+mysql> insert into country (c_ountry) values("china");
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into city(city_name,country_id) values("beijjing",1),("shanghai",1
+);
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql>  update country set country_id=2 where country_id=1;
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from country;
++------------+----------+---------------------+
+| country_id | c_ountry | last_update         |
++------------+----------+---------------------+
+|          2 | china    | 2018-11-16 14:05:26 |
++------------+----------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from city;
++---------+-----------+------------+---------------------+
+| city_id | city_name | country_id | last_update         |
++---------+-----------+------------+---------------------+
+|       1 | beijjing  |          2 | 2018-11-16 14:05:16 |
+|       2 | shanghai  |          2 | 2018-11-16 14:05:16 |
++---------+-----------+------------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql>
