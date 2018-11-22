@@ -1,0 +1,81 @@
+use shopping;
+
+
+
+-- 创建表
+
+-- create table momo(
+
+-- id int not null auto_increment primary key,
+-- user_name  varchar(40) not null,
+
+-- gender int(1) not null,
+
+-- tel int(11) not null,
+
+-- like_user_id varchar(40) not null,
+
+-- like_user_name varchar(40) not null,
+
+-- like_wx varchar(40) not null)engine=innodb default charset=utf8;
+
+
+
+
+-- 插入用户
+
+-- insert into momo
+
+-- (user_name,gender,tel,like_user_id,like_user_name,like_wx) values
+
+-- ("huwang",1,1111111,"momo_123","huwang","wxid_123"),
+
+-- ("huwang1",2,22222,"momo_124","huwang","wxid_124"),
+
+-- ("huwang2",0,33333,"momo_125","huwang1","wxid_125");
+
+-- select * from momo;
+
+
+
+-- 创建过程
+
+
+-- 一定要先去试验最关键的sql能否成功
+
+
+-- select * from momo where user_name="huwang";
+
+
+
+-- 着手建立过程
+
+drop procedure if exists momo_pro;
+
+delimiter $$
+
+create procedure momo_pro(in userName varchar(20),out result varchar(40))
+reads sql data
+begin
+
+
+-- 开始查询
+
+select * from momo where user_name=userName;
+
+
+-- 查询结果进行赋值
+
+select * into result;
+
+end$$
+
+delimiter ;
+
+
+
+-- 调用过程
+
+call momo_pro("huwang1",@searchs);
+
+select @searchs;

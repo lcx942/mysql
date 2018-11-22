@@ -1,0 +1,55 @@
+use lcx321;
+
+drop table if exists user;
+
+create table user(
+
+use_id int unsigned not null auto_increment,
+
+yonghu_name varchar(10) not null,
+
+mima varchar(10) not null,
+
+primary key(use_id)
+
+)engine=innodb default charset=utf8;
+
+
+use lcx321;
+
+drop table if exists equipment;
+
+create table equipment(
+
+equipment_id int unsigned not null auto_increment,
+
+equipment_name varchar(10) not null,
+
+price int(4) not null,
+
+use_id int unsigned not null,
+
+key `idx_fk_use_id` (use_id),
+
+last_update timestamp not null default current_timestamp 
+on update current_timestamp,
+
+primary key(equipment_id),
+
+constraint `fk_equipment_user` foreign key(use_id) references user (use_id) 
+
+on delete restrict on update cascade 
+
+)engine=innodb default charset=utf8;
+
+
+
+use lcx321;
+
+
+insert into user(yonghu_name,mima)values
+('cuo','123456'),('cuo1','456789'),('cuo2','456123');
+
+
+insert into equipment(equipment_name,price,use_id)values
+('futou',122,1),('qiang',231,2),('chutou',21,3);
